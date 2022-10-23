@@ -31,3 +31,21 @@ mycursor = db.cursor()
 #mycursor.execute('''INSERT INTO pizzas (pizza_name)
 #VALUES ('Buffalo Chicken')''')
 
+#mycursor.execute('''INSERT INTO Toppings (topping_name)
+#VALUES
+#('Sausage'),
+#('Anchovies'),
+#('Mushrooms'),
+#('Bacon'),
+#('White Onion'),
+#('Red Onion'),
+#('Garlic'),
+#('Ham'),
+#('Canadian Bacon'),
+#('Pineapple'),
+#('Sprinkles')
+#''')
+#db.commit()
+
+#mycursor.execute('UPDATE Toppings SET timestamp = NOW()')
+#db.commit()
