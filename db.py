@@ -1,10 +1,28 @@
-from flask import Flask, render_template
+import mysql.connector
 
-app = Flask(__name__)
+#establish connection to mysql
+db = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    passwd='Moxie2020!',
+    database='pizzadb'
+)
 
-@app.route("/")
-def home():
-    return 'Hello!'
+mycursor = db.cursor()
 
-if __name__ == "__main__":
-    app.run()
+#database creation
+#mycursor.execute('CREATE DATABASE pizzadb')
+
+#pizza table creation
+#mycursor.execute('CREATE TABLE pizzas (id int PRIMARY KEY, pizza_name VARCHAR(50), created_by VARCHAR(50), timestamp TIMESTAMP)')
+
+#toppings table creation
+#mycursor.execute('CREATE TABLE toppings (id int PRIMARY KEY, topping_name VARCHAR(50), timestamp TIMESTAMP)')
+
+mycursor.execute('''CREATE TABLE pizza_masterpieces (
+    id int PRIMARY KEY,
+    pizzaID int,
+    toppingID int,
+    FOREIGN KEY (pizzaID) REFERENCES pizzas(id),
+    FOREIGN KEY (toppingID) REFERENCES toppings(id),
+    timestamp TIMESTAMP)''')
