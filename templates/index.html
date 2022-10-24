@@ -4,12 +4,11 @@
         <title>Pizza Maker</title>
     </head>
     <body>
-        <p>Hello!</p>
+        <p>Welcome to Pizza Maker</p>
+        <h2>Available Toppings</h2>
         {% for row in data %}    
         <tr>
-            <td>{{row[0]}}</td>
-            <td>{{row[1]}}</td>
-            <td>{{row[2]}}</td>
+            <td>{{row[0]}} <p>DELETE</p></td>
         </tr>
     {% endfor %}
     </body>
