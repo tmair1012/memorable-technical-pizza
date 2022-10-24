@@ -5,13 +5,12 @@ db = mysql.connector.connect(
     host='localhost',
     user='root',
     passwd='Moxie2020!',
-    database='pizzadb'
 )
 
 mycursor = db.cursor()
 
 #database creation
-#mycursor.execute('CREATE DATABASE pizzadb')
+#mycursor.execute('CREATE DATABASE pizza_creator')
 
 #pizza table creation
 #mycursor.execute('CREATE TABLE Pizzas (id int PRIMARY KEY AUTO_INCREMENT, pizza_name VARCHAR(50), timestamp TIMESTAMP)')

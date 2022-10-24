@@ -1,0 +1,12 @@
+<h1>Add a Topping</h1>
+
+<form method="POST">
+    {{ form.name.label() }}
+    {{ form.name() }}
+    <br/>
+    {{ form.submit() }}
+</form>
+
+{% for available_toppings in available_toppings %}
+    {{ available_toppings.name }}
+{% endfor %}
