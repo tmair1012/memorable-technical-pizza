@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request
 import mysql.connector
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
 
 db = mysql.connector.connect(
     host='localhost',
@@ -16,6 +19,8 @@ def home():
     data = mycursor.fetchall()
     return render_template('index.html', data=data)
 
+#Form Class
+
 #@app.route("/updateToppings/<int:id>", methods=['GET', 'POST'])
 #def updateToppings(id):
     
@@ -24,7 +29,7 @@ def home():
 def page_not_found(e):
     return render_template('404.html'), 404
 
-#Internal error
+#Internal error page
 @app.errorhandler(500)
 def page_not_found(e):
     return render_template('500.html'), 500
