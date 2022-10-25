@@ -2,11 +2,10 @@
 
 {% block body %}
 <h1>Available Toppings</h1>
-
-<form action='/topping/add' method="POST">
-    <div>
+<form action='' method="POST">
+    <div class="form-group">
         <label>Topping</label>
-        <input type="'text" name="topping_name" />
+        {{ form.name }}
     </div>
     <div>
         <input type="submit" name="submit" value="Add Topping" />
