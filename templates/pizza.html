@@ -1,0 +1,20 @@
+<h1>Create Your Pizza</h1>
+
+<form action='/pizza/add' method="POST">
+    <div>
+        <label>Pizza Name</label>
+        <input type="'text" name="pizza_name" />
+    </div>
+    <div>
+        <input type="submit" name="submit" value="Add Pizza" />
+    </div>
+    <div>
+        {% for row in data %}    
+        <input type="checkbox" id= '2' name = 'checked_toppings' value="{{row[0]}}"
+        {{row[0]}} />
+        <label for="2">{{row[0]}}</label>
+        
+    {% endfor %}
+        
+    </div>
+</form>

@@ -24,7 +24,9 @@ mycursor = db.cursor()
 #homepage route
 @app.route("/", methods=['GET'])
 def home():
-    return render_template('index.html')
+    mycursor.execute("SELECT topping_name FROM Toppings")
+    data = mycursor.fetchall()
+    return render_template('index.html', data=data)
 
 
 #@app.route("/updateToppings/<int:id>", methods=['GET', 'POST'])
@@ -44,24 +46,42 @@ def home():
    # name = StringField("Add a Topping Name", validators=[DataRequired()])
     #submit = SubmitField("Add Topping")
 #Topping Page
-@app.route('/topping', methods=['GET', 'POST'])
-def toppings():
-    name = None
-    form = ToppingForm()
+#@app.route('/topping', methods=['GET', 'POST'])
+#def toppings():
+    #name = None
+   #form = ToppingForm()
     #validators
-    return render_template('topping.html',
-        name = name,
-        form = form)
-
+    #return render_template('topping.html',
+       # name = name,
+        #form = form)
+#Add a Topping
 @app.route('/topping/add', methods=['GET', 'POST'])
 def add_toppings():
+    mycursor.execute("SELECT topping_name FROM Toppings")
+    data = mycursor.fetchall()
     if request.method == 'POST':
         topping_name = request.form.get('topping_name')
         query = "INSERT INTO Toppings(id, topping_name, timestamp) VALUES (NULL, %s, NOW())"
         mycursor.execute(query, (topping_name,))
         db.commit()
-    return render_template('topping.html')
+    return render_template('topping.html', data=data)
 
+#Add a Pizza
+@app.route('/pizza/add', methods=['GET', 'POST'])
+def add_pizza():
+    mycursor.execute("SELECT topping_name id FROM Toppings")
+    data = mycursor.fetchall()
+    if request.method == 'POST':
+        checked = request.form.get('checked_toppings')
+        pizza_name = request.form.get('pizza_name')
+        query = "INSERT INTO Pizzas(id, pizza_name, topping_name, timestamp) VALUES (NULL, %s, %s, NOW())"
+        mycursor.execute(query, (pizza_name, checked))
+        db.commit()
+    return render_template('pizza.html', data=data)
+
+#@app.route('/pizza/update/<int:id>', methods=['POST', 'GET'])
+#def update(id):
+  
 
 
 

@@ -10,6 +10,10 @@ db = mysql.connector.connect(
 
 mycursor = db.cursor()
 
+#mycursor.execute(''' ALTER TABLE Pizza
+#ADD FOREIGN KEY (topping_id) REFERENCES Toppings(id)
+#''')
+
 #mycursor.execute('USE pizzadb')
 #database creation
 #mycursor.execute('CREATE DATABASE pizza_creator')
