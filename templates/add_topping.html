@@ -1,4 +1,7 @@
-<h1>Add a Topping</h1>
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Available Toppings</h1>
 
 <form action='/topping/add' method="POST">
     <div>
@@ -10,3 +13,4 @@
     </div>
 </form>
 
+{% endblock %}

@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Pizza Maker</title>
-    </head>
-   
-    
-    <body>
+{% extends 'base.html' %}
+
+{% block body %}
         <p>Welcome to Pizza Maker</p>
         <h2>Available Toppings</h2>
+    <a class="'btn" href="/topping/add">Add Topping</a>
+    <a class="'btn" href="/pizza/add">Add Pizza</a>
         {% for row in data %}    
         <tr>
-            <td>{{row[0]}} <p>DELETE</p></td>
+            <td>{{row[0]}}<form action="" method="post">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" value="Delete">
+              </form></td>
         </tr>
     {% endfor %}
-    </body>
-  
-</html>
+{% endblock %}
+   

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect
 app = Flask(__name__)
 import mysql.connector
 from flask_wtf import FlaskForm
@@ -24,7 +24,7 @@ mycursor = db.cursor()
 #homepage route
 @app.route("/", methods=['GET'])
 def home():
-    mycursor.execute("SELECT topping_name FROM Toppings")
+    mycursor.execute("SELECT * FROM Toppings")
     data = mycursor.fetchall()
     return render_template('index.html', data=data)
 
@@ -69,19 +69,28 @@ def add_toppings():
 #Add a Pizza
 @app.route('/pizza/add', methods=['GET', 'POST'])
 def add_pizza():
-    mycursor.execute("SELECT topping_name id FROM Toppings")
+    mycursor.execute("SELECT id FROM Toppings")
     data = mycursor.fetchall()
+    mycursor.execute("SELECT topping_name FROM Toppings")
+    data_name = mycursor.fetchall()
     if request.method == 'POST':
         checked = request.form.get('checked_toppings')
         pizza_name = request.form.get('pizza_name')
-        query = "INSERT INTO Pizzas(id, pizza_name, topping_name, timestamp) VALUES (NULL, %s, %s, NOW())"
+        query = "INSERT INTO Pizzas(id, pizza_name, topping_id, timestamp) VALUES (NULL, %s, %s, NOW())"
         mycursor.execute(query, (pizza_name, checked))
         db.commit()
-    return render_template('pizza.html', data=data)
+    return render_template('pizza.html', data=data, data_name=data_name)
 
 #@app.route('/pizza/update/<int:id>', methods=['POST', 'GET'])
 #def update(id):
-  
+
+#Delete Topping
+#@app.route('/delete_topping/<string:id>', methods = ['GET','POST'])
+#def delete(id):
+       # query = ("DELETE FROM Toppings WHERE id=%s", (id,))
+        #mycursor.execute(query, (id))
+        #db.commit()
+       # return redirect(url_for('index'))
 
 
 
@@ -101,4 +110,4 @@ def page_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run(port=5000)
+    app.run(port=5200)
