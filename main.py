@@ -28,9 +28,8 @@ class PizzaForm(Form):
     name = StringField('Name', [validators.Length(min=1, max=50)]) 
 
 #homepage route
-@app.route("/", methods=['GET'])
+@app.route("/")
 def home():
-
     #Get all Toppings
     mycursor.execute("SELECT * FROM Toppings")
     data = mycursor.fetchall()
@@ -73,6 +72,19 @@ def article(id):
     #return render_template('topping.html',
        # name = name,
         #form = form)
+
+#Get all Toppings
+@app.route('/toppings')
+def toppings():
+    
+    #get Toppings
+    mycursor.execute("SELECT * FROM Toppings")
+
+    toppings = mycursor.fetchall()
+
+    return render_template('toppings.html', toppings=toppings)
+
+    
 #Add a Topping
 @app.route('/topping/add', methods=['GET', 'POST'])
 def add_toppings():
@@ -91,6 +103,39 @@ def add_toppings():
 
         return redirect(url_for("home"))
     return render_template('add_topping.html', form=form)
+
+@app.route('/edit_topping/<string:id>', methods=['GET','POST'])
+def edit_topping(id):
+    #get topping by ID
+    mycursor.execute("SELECT topping_name FROM Toppings WHERE id = %s", [id,])
+
+    fetchit = mycursor.fetchone()
+    
+    # Implement Form
+    form = ToppingForm(request.form)
+
+    #form Fields
+    form.name.data = fetchit
+
+    if request.method == 'POST':
+        name = request.form['name']
+        
+
+        mycursor.execute("UPDATE Toppings SET topping_name=%s WHERE id = %s",(name, id))
+
+        db.commit()
+
+        flash('Topping Updated', 'success')
+
+        return redirect(url_for('home'))
+
+    return render_template('updateTopping.html', form=form)
+
+
+
+
+
+
     #mycursor.execute("SELECT topping_name FROM Toppings")
     #data = mycursor.fetchall()
     #if request.method == 'POST':

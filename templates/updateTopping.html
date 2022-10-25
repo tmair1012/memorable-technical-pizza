@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<form action="/topping/update{{topping_to_update.id}}" method = "POST">
-    <input type="text" name = "topping_name" value="{{topping_to_update.id}}">
-    <input type="submit" value="Update Topping">
+<h1>Edit Topping</h1>
+<form method ="post" action="">
+    <div>
+        {{ form.name }}
+    </div>
+    <input type ="submit" value="Submit">
 </form>
 {% endblock %}

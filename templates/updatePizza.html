@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
+<h1>Edit Pizza</h1>
 <form action="/pizza/update{{pizza_to_update.id}}" method = "POST">
     <input type="text" name = "pizza_name" value="{{pizza_to_update.id}}">
     <input type="submit" value="Update Pizza">
