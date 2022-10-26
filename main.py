@@ -152,17 +152,15 @@ def delete_topping(id):
 #Add a Pizza
 @app.route('/pizza/add', methods=['GET', 'POST'])
 def add_pizza():
-    mycursor.execute("SELECT id FROM Toppings")
+    mycursor.execute("SELECT * FROM Toppings")
     data = mycursor.fetchall()
-    mycursor.execute("SELECT topping_name FROM Toppings")
-    data_name = mycursor.fetchall()
     if request.method == 'POST':
         checked = request.form.get('checked_toppings')
         pizza_name = request.form.get('pizza_name')
         query = "INSERT INTO Pizzas(id, pizza_name, topping_id, timestamp) VALUES (NULL, %s, %s, NOW())"
         mycursor.execute(query, (pizza_name, checked))
         db.commit()
-    return render_template('pizza.html', data=data, data_name=data_name)
+    return render_template('pizza.html', data=data)
 
 #@app.route('/pizza/update/<int:id>', methods=['POST', 'GET'])
 #def update(id):

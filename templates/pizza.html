@@ -13,9 +13,8 @@
     </div>
     <div>
         {% for row in data %}    
-        <input type="checkbox" id= '{{row[0]}}' name = 'checked_toppings' value="{{row[0]}}"
-        {{row[0]}} />
-        <label for="2"{{row[0]}}></label>
+        <input type="checkbox" id= '{{row[0]}}' name = 'checked_toppings' value="{{row[0]}}"/>
+        <label for="2">{{row[1]}}</label>
     {% endfor %}
         
     </div>
