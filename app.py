@@ -3,13 +3,16 @@ import mysql.connector
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, SubmitField, validators
 from wtforms.validators import DataRequired
+from flask_sqlalchemy import SQLAlchemy
 
 
 
 #create Flask instance
 app = Flask(__name__)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://owteokoewiyuig:2533695a98e84b3fe0e46387925122f306d056583cd2773d1cd1cc9255adf0f0@ec2-54-163-34-107.compute-1.amazonaws.com:5432/ddq76h0h14tc7g'
 
+db = SQLAlchemy(app)
 #establish connection to mysql
 db = mysql.connector.connect(
     host='localhost',
