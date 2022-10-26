@@ -18,5 +18,19 @@
                 <a href="/edit_topping/{{row.0}}"> Edit</a>
             </form></td>
         </tr>
-    {% endfor %}
+        {% endfor %}
+        <tr>
+            <th>Pizza Name</th>
+            <th>Toppings</th>
+            <th>Created By:</th>
+            <th>Date Created:</th>
+        </tr>
+        {% for row in pizza_data %}
+        <tr>
+            <td>{{ row.1 }}</td>
+            <td>{{ row.2 }}</td>
+            <td>{{ row.3 }}</td>
+
+        </tr>
+        {% endfor %}
 {% endblock %}

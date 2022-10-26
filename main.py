@@ -27,13 +27,18 @@ class ToppingForm(Form):
 class PizzaForm(Form):
     name = StringField('Name', [validators.Length(min=1, max=50)]) 
 
+
 #homepage route
 @app.route("/")
 def home():
     #Get all Toppings
     mycursor.execute("SELECT * FROM Toppings")
     data = mycursor.fetchall()
-    return render_template('index.html', data=data)
+
+    mycursor.execute("SELECT * FROM Pizzas")
+    pizza_data = mycursor.fetchall()
+
+    return render_template('index.html', data=data, pizza_data=pizza_data)
 
     
 
@@ -46,32 +51,6 @@ def article(id):
 
     return render_template('masterpiece.html', data=data)
 
-
-#@app.route("/updateToppings/<int:id>", methods=['GET', 'POST'])
-#def updateToppings(id):
-
-#Toppings Class
-#class Toppings(db.Model):
-    #id = db.Column(db.Integer, primary_key=True)
-   # name = db.Column(db.String(200), nullable = False, unique=True)
-    #date_added = db.Column(db.DateTime, default=datetime.utcnow)
-
-    #def __repr__(self):
-        #return '<Name %r>' % self.name
-
-#topping form
-#class ToppingForm(FlaskForm):
-   # name = StringField("Add a Topping Name", validators=[DataRequired()])
-    #submit = SubmitField("Add Topping")
-#Topping Page
-#@app.route('/topping', methods=['GET', 'POST'])
-#def toppings():
-    #name = None
-   #form = ToppingForm()
-    #validators
-    #return render_template('topping.html',
-       # name = name,
-        #form = form)
 
 #Get all Toppings
 @app.route('/toppings')
@@ -155,12 +134,41 @@ def add_pizza():
     mycursor.execute("SELECT * FROM Toppings")
     data = mycursor.fetchall()
     if request.method == 'POST':
-        checked = request.form.get('checked_toppings')
+        checked = request.form.getlist('checked_toppings')
         pizza_name = request.form.get('pizza_name')
-        query = "INSERT INTO Pizzas(id, pizza_name, topping_id, timestamp) VALUES (NULL, %s, %s, NOW())"
-        mycursor.execute(query, (pizza_name, checked))
-        db.commit()
+        for checks in checked:
+            query = "INSERT INTO Pizzas(id, pizza_name, topping_id, timestamp) VALUES (NULL, %s, %s, NOW())"
+            mycursor.execute(query, (pizza_name, checks))
+            db.commit()
     return render_template('pizza.html', data=data)
+
+# Update a Pizza
+@app.route('/edit_pizza/<string:id>', methods=['GET','POST'])
+def edit_topping(id):
+    #get topping by ID
+    mycursor.execute("SELECT * FROM Pizzas WHERE id = %s", [id,])
+
+    fetchit = mycursor.fetchone()
+    
+    # Implement Form
+    form = ToppingForm(request.form)
+
+    #form Fields
+    form.name.data = fetchit
+
+    if request.method == 'POST':
+        name = request.form['name']
+        
+
+        mycursor.execute("UPDATE Toppings SET topping_name=%s WHERE id = %s",(name, id))
+
+        db.commit()
+
+        flash('Topping Updated', 'success')
+
+        return redirect(url_for('home'))
+
+    return render_template('updateTopping.html', form=form)
 
 #@app.route('/pizza/update/<int:id>', methods=['POST', 'GET'])
 #def update(id):
