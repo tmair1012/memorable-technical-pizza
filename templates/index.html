@@ -14,9 +14,11 @@
             <td>{{ row.0 }}</td>
             <td>{{ row.1 }}</td>
             <td><form action="" method="post">
-                <input type="hidden" name="_method" value="DELETE">
                 <a href="/edit_topping/{{row.0}}"> Edit</a>
+                <a href="/delete/{{ row.0 }}" onclick="return confirm('Are you sure you want to delete {{ row.1 }}')">Delete</a>
+
             </form></td>
+            <td>
         </tr>
         {% endfor %}
         <tr>

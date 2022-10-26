@@ -10,13 +10,21 @@ db = mysql.connector.connect(
 
 mycursor = db.cursor()
 
-#mycursor.execute(''' ALTER TABLE Pizza
-#ADD FOREIGN KEY (topping_id) REFERENCES Toppings(id)
+#mycursor.execute(''' DROP TABLE Masterpieces
 #''')
 
 #mycursor.execute('USE pizzadb')
-#database creation
-#mycursor.execute('CREATE DATABASE pizza_creator')
+
+#mycursor.execute("""ALTER TABLE Pizzas
+#DROP CONSTRAINT pizzas_ibfk_1
+#""")
+
+#mycursor.execute("""ALTER TABLE Pizzas
+#ADD CONSTRAINT pizzas_ibfk_1
+#FOREIGN KEY(topping_id) REFERENCES Toppings(id)
+#ON DELETE CASCADE
+#ON UPDATE CASCADE
+#""")
 
 #pizza table creation
 #mycursor.execute('CREATE TABLE Pizzas (id int PRIMARY KEY AUTO_INCREMENT, pizza_name VARCHAR(50), timestamp TIMESTAMP)')
@@ -67,20 +75,6 @@ mycursor = db.cursor()
 #''')
 #db.commit()
 
-#mycursor.execute('UPDATE Pizzas SET timestamp = NOW()')
-#db.commit()
 
-#mycursor.execute('''INSERT INTO Masterpieces (pizzaID, toppingID, created_by)
-#VALUES
-#(2,52,'Tyler Mair'),
-#(2,53,'Tyler Mair'),
-#(3,54,'Tyler Mair'),
-#(3,56,'Tyler Mair'),
-#(3,57,'Tyler Mair'),
-#(3,59,'Tyler Mair'),
-#(5,57,'Tyler Mair'),
-#(5,58,'Tyler Mair'),
-#(5,59,'Tyler Mair')
-#''')
-#db.commit()
+
 
