@@ -131,19 +131,23 @@ def edit_topping(id):
 
     return render_template('updateTopping.html', form=form)
 
+@app.route('/delete_topping/<string:id>', methods=['POST'])
+def delete_topping(id):
+    
+    #execute query
+    mycursor.execute("DELETE FROM Toppings Where id = %s", [id])
+
+    #commit
+    db.commit()
+
+    flash('Article Deleted', 'success')
+
+    return redirect(url_for('dashboard'))
 
 
+    
 
-
-
-    #mycursor.execute("SELECT topping_name FROM Toppings")
-    #data = mycursor.fetchall()
-    #if request.method == 'POST':
-        #topping_name = request.form.get('topping_name')
-        #query = "INSERT INTO Toppings(id, topping_name, timestamp) VALUES (NULL, %s, NOW())"
-        #mycursor.execute(query, (topping_name,))
-        #db.commit()
-   # return render_template('topping.html', data=data)
+#PIZZA CREATION METHODS
 
 #Add a Pizza
 @app.route('/pizza/add', methods=['GET', 'POST'])

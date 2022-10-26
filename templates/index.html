@@ -5,13 +5,18 @@
         <h2>Available Toppings</h2>
     <a class="'btn" href="/topping/add">Add Topping</a>
     <a class="'btn" href="/pizza/add">Add Pizza</a>
-        {% for data in fetchit %}    
         <tr>
-            <td>{{ data.id }}</td>
+            <th>ID</th>
+            <th>Topping Name</th>
+        </tr>
+        {% for row in data %}    
+        <tr>
+            <td>{{ row.0 }}</td>
+            <td>{{ row.1 }}</td>
             <td><form action="" method="post">
                 <input type="hidden" name="_method" value="DELETE">
-                <a href="/edit_topping/{{data.id}}/"> Topping</a>
-              </form></td>
+                <a href="/edit_topping/{{row.0}}"> Edit</a>
+            </form></td>
         </tr>
     {% endfor %}
 {% endblock %}
