@@ -32,14 +32,6 @@ mycursor = db.cursor()
 #toppings table creation
 #mycursor.execute('CREATE TABLE Toppings (id int PRIMARY KEY AUTO_INCREMENT, topping_name VARCHAR(50), timestamp TIMESTAMP)')
 
-#mycursor.execute('''CREATE TABLE Masterpieces (
-    #id int PRIMARY KEY AUTO_INCREMENT,
-    #pizzaID int,
-    #toppingID int,
-    #FOREIGN KEY (pizzaID) REFERENCES Pizzas(id),
-    #FOREIGN KEY (toppingID) REFERENCES Toppings(id),
-    #created_by VARCHAR(50),
-    #timestamp TIMESTAMP)''')
 
 #mycursor.execute('''INSERT INTO pizzas (pizza_name)
 #VALUES ('Buffalo Chicken')''')

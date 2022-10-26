@@ -38,35 +38,38 @@ def home():
     data = mycursor.fetchall()
 
     #Organize Toppings into their respective pizza names for markdown
-    mycursor.execute("""SELECT pizza_name,GROUP_CONCAT(topping_id)
-                    FROM Pizzas
-                    GROUP BY pizza_name""")
-    pizza_data = mycursor.fetchall()
+    
     #fetch pizza data
     mycursor.execute("SELECT * FROM Pizzas")
     pizza_data2 = mycursor.fetchall()
 
-    return render_template('index.html', data=data, pizza_data=pizza_data, pizza_data2=pizza_data2)
+    return render_template('index.html', data=data, pizza_data2=pizza_data2)
 
 #TOPPING ROUTES 
 
 #Add a Topping
 @app.route('/topping/add', methods=['GET', 'POST'])
 def add_toppings():
+    mycursor.execute("SELECT topping_name FROM Toppings")
+    check_duplicate = mycursor.fetchall()
+    print(check_duplicate)
     form = ToppingForm(request.form)
     if request.method == 'POST' and form.validate():
         topping_name = form.name.data
-
+        matchingString = "(\'" + topping_name + "\',)"
+        if check_duplicate == matchingString:
+            return redirect(url_for('page_not_found'))
+        else:
         # Execute cursor
-        mycursor.execute("INSERT INTO Toppings(id, topping_name, timestamp) VALUES (NULL, %s, NOW())",(topping_name,))
+            mycursor.execute("INSERT INTO Toppings(id, topping_name, timestamp) VALUES (NULL, %s, NOW())",(topping_name,))
 
         # Commit to DB
-        db.commit()
+            db.commit()
 
         #Success Message
-        flash('Topping Created', 'success')
+            flash('Topping Created', 'success')
 
-        return redirect(url_for("home"))
+            return redirect(url_for("home"))
     return render_template('add_topping.html', form=form)
 
 
@@ -133,15 +136,20 @@ def delete_topping(id):
 #Add a Pizza
 @app.route('/pizza/add', methods=['GET', 'POST'])
 def add_pizza():
+    mycursor.execute("SELECT pizza_name FROM Pizzas")
+    check_duplicate = mycursor.fetchall()
     mycursor.execute("SELECT * FROM Toppings")
     data = mycursor.fetchall()
     if request.method == 'POST':
         checked = request.form.getlist('checked_toppings')
         pizza_name = request.form.get('pizza_name')
-        for checks in checked:
-            query = "INSERT INTO Pizzas(id, pizza_name, topping_id, timestamp) VALUES (NULL, %s, %s, NOW())"
-            mycursor.execute(query, (pizza_name, checks))
-            db.commit()
+        if check_duplicate != pizza_name:
+            for checks in checked:
+                query = "INSERT INTO Pizzas(id, pizza_name, topping_id, timestamp) VALUES (NULL, %s, %s, NOW())"
+                mycursor.execute(query, (pizza_name, checks))
+                db.commit()
+                return redirect(url_for('home'))
+
     return render_template('pizza.html', data=data)
 
 # Update a Pizza
@@ -187,6 +195,18 @@ def edit_pizza(id):
 
     return render_template('updatePizza.html', form=form, topping_data=topping_data)
 
+#Delete Pizza
+@app.route('/delete_pizza/<string:id>', methods=['GET','POST'])
+def delete_pizza(id):
+    
+    mycursor.execute("DELETE FROM Pizzas WHERE id = %s", (id,))
+
+    #commit
+    db.commit()
+
+    flash('Article Deleted', 'success')
+
+    return redirect(url_for('home'))
 
 #ERRORS PAGES
 

@@ -1,17 +1,15 @@
 {% extends 'base.html' %}
 
 {% block body %}
+<a class="'btn" href="/topping/add">Add Topping</a>
+<a class="'btn" href="/pizza/add">Add Pizza</a>
         <p>Welcome to Pizza Maker</p>
         <h2>Available Toppings</h2>
-    <a class="'btn" href="/topping/add">Add Topping</a>
-    <a class="'btn" href="/pizza/add">Add Pizza</a>
         <tr>
-            <th>ID</th>
-            <th>Topping Name</th>
         </tr>
+        <br/>
         {% for row in data %}    
         <tr>
-            <td>{{ row.0 }}</td>
             <td>{{ row.1 }}</td>
             <td><form action="" method="post">
                 <a href="/edit_topping/{{row.0}}"> Edit</a>
@@ -27,12 +25,13 @@
             <th>Created By:</th>
             <th>Date Created:</th>
         </tr>
-        {% for row in pizza_data %}
+        {% for row in pizza_data2 %}
         <tr>
-            <td>{{ row.1 }}</td>
-            <td>{{ row.2 }}</td>
+            
             <td>{{ row.3 }}</td>
             <td><a href="/edit_pizza/{{row.0}}"> Edit</a></td>
+            <a href="/delete_pizza/{{ row.0 }}" onclick="return confirm('Are you sure you want to delete {{ row.1 }}')">Delete</a>
+
 
         </tr>
         {% endfor %}
