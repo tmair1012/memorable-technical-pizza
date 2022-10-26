@@ -2,8 +2,16 @@
 
 {% block body %}
 <h1>Edit Pizza</h1>
-<form action="/pizza/update{{pizza_to_update.id}}" method = "POST">
-    <input type="text" name = "pizza_name" value="{{pizza_to_update.id}}">
-    <input type="submit" value="Update Pizza">
+<form method ="post" action="">
+    <div>
+        {{ form.name }}
+    </div>
+    <input type ="submit" value="Submit">
 </form>
+{% for row in topping_data %}   
+    <div>
+        <input type="checkbox" id= '{{row[0]}}' name = 'checked_toppings' value="{{row[0]}}"/>
+        <label for="2">{{row[1]}}</label>
+    {% endfor %}
+</div>
 {% endblock %}

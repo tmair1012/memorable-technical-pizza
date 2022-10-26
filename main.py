@@ -144,31 +144,45 @@ def add_pizza():
 
 # Update a Pizza
 @app.route('/edit_pizza/<string:id>', methods=['GET','POST'])
-def edit_topping(id):
+def edit_pizza(id):
+    mycursor.execute("SELECT * FROM Toppings")
+    topping_data = mycursor.fetchall()
     #get topping by ID
-    mycursor.execute("SELECT * FROM Pizzas WHERE id = %s", [id,])
+    mycursor.execute("SELECT pizza_name FROM Pizzas WHERE id = %s", [id,])
 
     fetchit = mycursor.fetchone()
     
     # Implement Form
-    form = ToppingForm(request.form)
+    form = PizzaForm(request.form)
 
     #form Fields
     form.name.data = fetchit
 
     if request.method == 'POST':
+       
+
         name = request.form['name']
-        
+        print(name)
+        reset_value = None
+        checked = request.form.getlist('checked_toppings')
 
-        mycursor.execute("UPDATE Toppings SET topping_name=%s WHERE id = %s",(name, id))
-
+        mycursor.execute("UPDATE Pizzas SET pizza_name=%s WHERE id = %s",(name, id))
         db.commit()
 
-        flash('Topping Updated', 'success')
+        mycursor.execute("UPDATE Pizzas SET topping_id=%s WHERE id = %s",(reset_value, id))
+        db.commit()
+
+        for checks in checked:
+            query = "UPDATE Pizzas SET topping_id=%s WHERE id = %s",(checks, id)
+            mycursor.execute(query, (checks,))
+
+
+
+        flash('Pizza Updated', 'success')
 
         return redirect(url_for('home'))
 
-    return render_template('updateTopping.html', form=form)
+    return render_template('updatePizza.html', form=form, topping_data=topping_data)
 
 #@app.route('/pizza/update/<int:id>', methods=['POST', 'GET'])
 #def update(id):
